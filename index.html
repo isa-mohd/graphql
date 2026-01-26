@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reboot01 Profile</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-page">
+    <video id="loginVideo" class="login-video" muted playsinline>
+        <source src="src/login.mp4" type="video/mp4">
+    </video>
+    <video id="loginFailVideo" class="login-video" muted playsinline hidden>
+        <source src="src/login-fail.mp4" type="video/mp4">
+    </video>
+    <audio id="bgMusic" loop autoplay>
+        <source src="src/Battlefield-ost1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="failSound">
+        <source src="src/sound1.wav" type="audio/wav">
+    </audio>
+    <div class="login-video-overlay"></div>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logo"></div>
+            <h1>Welcome Back</h1>
+            <p>Sign in to view your Reboot01 profile</p>
+        </div>
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="identifier">Username or Email</label>
+                <input type="text" id="identifier" name="identifier" placeholder="Enter username or email" required autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter password" required autocomplete="current-password">
+            </div>
+            <div id="loginError" class="error-message" hidden></div>
+            <button type="submit" id="loginBtn" class="login-btn">
+                <span class="btn-text">Sign In</span>
+                <span class="btn-loader" hidden></span>
+            </button>
+        </form>
+        <div class="login-footer">
+            <p>Use your Reboot01 credentials</p>
+        </div>
+    </div>
+</div>
+
+<!-- PROFILE PAGE -->
+<div id="profilePage" hidden>
+    <video id="profileVideo" class="profile-video" loop playsinline autoplay>
+        <source src="src/profile.mp4" type="video/mp4">
+    </video>
+    <div class="profile-video-overlay"></div>
+    
+    <!-- Loading Overlay -->
+    <div id="profileLoading" class="profile-loading" hidden>
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>LOADING PROFILE</h2>
+            <p>Retrieving data from server...</p>
+        </div>
+    </div>
+    
+    <div class="parent">
+    <div class="top-bar">
+        <div class="brand">
+            <div class="brand-logo"></div>
+            <span class="brand-name">GraphQL</span>
+        </div>
+        <div class="user-welcome">
+            <span id="welcomeUser">Welcome</span>
+        </div>
+        <button id="logoutBtn" class="logout-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Logout
+        </button>
+    </div>
+    
+    <div class="total-xp">
+        <div class="stat-card">
+            <div class="stat-icon xp-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Total XP</span>
+                <span id="totalXp" class="stat-value">—</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="projects-done">
+        <div class="stat-card">
+            <div class="stat-icon projects-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Projects Done</span>
+                <span id="projectsDone" class="stat-value">—</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="audit-ratio">
+        <div class="stat-card">
+            <div class="stat-icon audit-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Audit Ratio</span>
+                <span id="auditRatioValue" class="stat-value">—</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="user-info">
+        
+        <div class="card">
+            <h3 class="card-title">User Information</h3>
+            <div class="user-details">
+                <div class="user-avatar" id="userAvatar">?</div>
+                <div class="user-meta">
+                    <div class="detail-row">
+                        <span class="detail-label">Login</span>
+                        <span id="userLogin" class="detail-value">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">User ID</span>
+                        <span id="userId" class="detail-value">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Campus</span>
+                        <span id="userCampus" class="detail-value">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Email</span>
+                        <span id="userEmail" class="detail-value">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Member Since</span>
+                        <span id="userCreatedAt" class="detail-value">—</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card-info">
+        <div class="card">
+            <h3 class="card-title">Audit Statistics</h3>
+            <div class="audit-stats">
+                <div class="audit-stat">
+                    <span class="audit-label">Audits Done (Up)</span>
+                    <span id="auditsUp" class="audit-value up">—</span>
+                </div>
+                <div class="audit-stat">
+                    <span class="audit-label">Audits Received (Down)</span>
+                    <span id="auditsDown" class="audit-value down">—</span>
+                </div>
+                <div class="audit-bar">
+                    <div id="auditBarUp" class="audit-bar-fill up" style="width: 50%"></div>
+                    <div id="auditBarDown" class="audit-bar-fill down" style="width: 50%"></div>
+                </div>
+                <div class="audit-stat">
+                    <span class="audit-label">Pass Rate</span>
+                    <span id="passRate" class="audit-value">—</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="XP-Progress-Timeline">
+        <div class="card chart-card">
+            <h3 class="card-title">XP Progress Timeline</h3>
+            <svg id="xpTimelineChart" class="chart-svg" viewBox="0 0 800 300"></svg>
+            <div id="xpTimelineMeta" class="chart-meta"></div>
+        </div>
+    </div>
+    
+    <div class="circular-audit-ratio">
+        <div class="card chart-card">
+            <h3 class="card-title">Pass / Fail Ratio</h3>
+            <svg id="passFailDonut" class="chart-svg donut" viewBox="0 0 300 300"></svg>
+            <div id="donutMeta" class="chart-meta"></div>
+        </div>
+    </div>
+    
+    <div class="Technology-Skills-Radar">
+        <div class="card chart-card">
+            <h3 class="card-title">Technology Skills</h3>
+            <svg id="skillsChart" class="chart-svg" viewBox="0 0 400 300"></svg>
+            <div id="skillsMeta" class="chart-meta"></div>
+        </div>
+    </div>
+    
+    <div class="Recent-Projects">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Recent Projects</h3>
+                <button id="showAllProjectsBtn" class="show-all-btn">Show All</button>
+            </div>
+            <div id="recentProjectsList" class="projects-list">
+                <div class="project-item skeleton"></div>
+                <div class="project-item skeleton"></div>
+                <div class="project-item skeleton"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ALL PROJECTS MODAL -->
+<div id="projectsModal" class="modal" hidden>
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>All Projects</h2>
+            <button id="closeModalBtn" class="close-modal-btn">&times;</button>
+        </div>
+        <div id="allProjectsList" class="all-projects-list"></div>
+    </div>
+</div><!-- End Profile Page -->
+
+<!-- 404 PAGE -->
+<div id="notFoundPage" class="not-found-page" hidden>
+    <video class="login-video" muted loop autoplay playsinline>
+        <source src="src/404.mp4" type="video/mp4">
+    </video>
+    <div class="login-video-overlay"></div>
+    <div class="not-found-container">
+        <div class="not-found-content">
+            <h1 class="error-code">404</h1>
+            <h2 class="error-title">PAGE NOT FOUND</h2>
+            <p class="error-message">The page you are looking for does not exist.</p>
+            <button id="backHomeBtn" class="back-home-btn">RETURN TO HOME</button>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
