@@ -24,7 +24,6 @@ export async function graphqlRequest({ url, token, query, variables = {} }) {
 }
 
 export const QUERIES = {
-    // Get basic user info
     user: `
         query GetUser($userId: Int!) {
             user(where: { id: { _eq: $userId } }) {
@@ -37,7 +36,6 @@ export const QUERIES = {
         }
     `,
     
-    // Get XP total (filtered for bh-module excluding piscine-js)
     xpTotal: `
         query GetXpTotal($userId: Int!) {
             xp_total: transaction_aggregate(
@@ -57,7 +55,6 @@ export const QUERIES = {
         }
     `,
     
-    // Get projects count (passed and failed)
     projectsCount: `
         query GetProjectsCount($userId: Int!) {
             progress(
@@ -73,7 +70,6 @@ export const QUERIES = {
         }
     `,
     
-    // Get XP transactions for timeline (filtered for bh-module excluding piscine-js)
     xpTransactions: `
         query GetXpTransactions($userId: Int!) {
             transaction(
@@ -94,7 +90,6 @@ export const QUERIES = {
         }
     `,
     
-    // Get all projects for modal (using progress table)
     allProjects: `
         query GetAllProjects($userId: Int!) {
             progress(
@@ -118,7 +113,6 @@ export const QUERIES = {
         }
     `,
     
-    // Get all transactions for XP timeline
     transactions: `
         query GetTransactions($userId: Int!) {
             transaction(
@@ -139,7 +133,6 @@ export const QUERIES = {
         }
     `,
     
-    // Get all results for pass/fail data
     results: `
         query GetResults($userId: Int!) {
             result(
@@ -162,7 +155,6 @@ export const QUERIES = {
         }
     `,
     
-    // Get user audits data
     audits: `
         query GetAudits($userId: Int!) {
             audit(
@@ -177,7 +169,6 @@ export const QUERIES = {
         }
     `,
     
-    // Get user skills from results with good grades
     skills: `
         query GetSkills($userId: Int!) {
             result(

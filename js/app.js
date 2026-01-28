@@ -8,7 +8,6 @@ const API = {
     graphql: 'https://learn.reboot01.com/api/graphql-engine/v1/graphql',
 };
 
-// Store data globally for filtering
 let globalData = {
     transactions: [],
     results: [],
@@ -79,27 +78,23 @@ const el = {
     backHomeBtn: document.getElementById('backHomeBtn'),
 };
 
-// Video and audio management functions
 function playLoginVideo() {
     el.loginVideo.hidden = false;
     el.loginFailVideo.hidden = true;
     el.loginVideo.loop = true;
     el.loginVideo.play().catch(err => console.log('Login video autoplay prevented:', err));
     
-    // Play background music
     playBackgroundMusic();
 }
 
 function playBackgroundMusic() {
     if (el.bgMusic) {
-        el.bgMusic.volume = 0.5; // Set volume to 50%
+        el.bgMusic.volume = 1; 
         
-        // Try to play immediately
         const playPromise = el.bgMusic.play();
         if (playPromise !== undefined) {
             playPromise.catch(err => {
                 console.log('Autoplay prevented, enabling on first interaction');
-                // Fallback: play on any user interaction
                 const startMusic = () => {
                     if (el.bgMusic.paused && !el.loginPage.hidden) {
                         el.bgMusic.play().catch(e => console.log('Play failed:', e));
